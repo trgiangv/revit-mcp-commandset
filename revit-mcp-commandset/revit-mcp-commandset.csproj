@@ -48,12 +48,7 @@
         <PackageReference Include="Nice3point.Revit.Extensions" Version="$(RevitVersion).*" />
         <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitVersion).*" />
         <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="$(RevitVersion).*" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Reference Include="revit-mcp-sdk">
-        <HintPath>..\..\dll\revit-mcp-sdk\revit-mcp-sdk.dll</HintPath>
-      </Reference>
+        <PackageReference Include="revit-mcp-sdk" Version="1.0.0-beta.1" />
     </ItemGroup>
 
 </Project>
