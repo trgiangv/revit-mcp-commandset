@@ -16,10 +16,6 @@ Welcome to contribute! Please read this guide before participating.
 
 3. Open the solution file `revit-mcp-commandset.sln` in Visual Studio
 
-4. Restore NuGet packages:
-   - Right-click on the solution in Visual Studio
-   - Select "Restore NuGet Packages"
-
 ## Code Contribution Process
 
 1. Create a new branch from the latest `main` branch
