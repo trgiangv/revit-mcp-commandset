@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
+﻿using Autodesk.Revit.UI;
 using revit_mcp_sdk.API.Interfaces;
-using revit_mcp_commandset.Utils;
 
-namespace revit_mcp_commandset.Commands
+namespace RevitMCPCommandSet.Services
 {
     public class TagWallsEventHandler : IExternalEventHandler, IWaitableExternalEventHandler
     {
@@ -43,7 +35,7 @@ namespace revit_mcp_commandset.Commands
 
         public void Execute(UIApplication uiapp)
         {
-            this.uiApp = uiapp;
+            uiApp = uiapp;
 
             try
             {

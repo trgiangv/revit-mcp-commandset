@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.UI;
+﻿using Autodesk.Revit.UI;
 using Newtonsoft.Json.Linq;
 using revit_mcp_sdk.API.Base;
-using revit_mcp_commandset.Commands;
+using RevitMCPCommandSet.Services;
 
-namespace revit_mcp_commandset.Commands
+namespace RevitMCPCommandSet.Commands
 {
     public class TagWallsCommand : ExternalEventCommandBase
     {

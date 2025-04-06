@@ -1,15 +1,10 @@
-﻿using Autodesk.Revit.DB;
+﻿using System.CodeDom.Compiler;
 using Autodesk.Revit.UI;
 using Microsoft.CSharp;
 using Newtonsoft.Json;
-using System;
-using System.CodeDom.Compiler;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
 using revit_mcp_sdk.API.Interfaces;
 
-namespace revit_mcp_commandset.Commands.Code
+namespace RevitMCPCommandSet.Commands.ExecuteDynamicCode
 {
     /// <summary>
     /// 处理代码执行的外部事件处理器

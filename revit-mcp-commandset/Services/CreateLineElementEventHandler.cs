@@ -1,14 +1,9 @@
 ﻿using Autodesk.Revit.UI;
 using revit_mcp_sdk.API.Interfaces;
-using revit_mcp_commandset.Models;
-using revit_mcp_commandset.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RevitMCPCommandSet.Models.Common;
+using RevitMCPCommandSet.Utils;
 
-namespace revit_mcp_commandset.Commands
+namespace RevitMCPCommandSet.Services
 {
     public class CreateLineElementEventHandler : IExternalEventHandler, IWaitableExternalEventHandler
     {
@@ -41,7 +36,7 @@ namespace revit_mcp_commandset.Commands
         }
         public void Execute(UIApplication uiapp)
         {
-            this.uiApp = uiapp;
+            uiApp = uiapp;
 
             try
             {

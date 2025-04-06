@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
+﻿using Autodesk.Revit.UI;
 using Newtonsoft.Json.Linq;
 using revit_mcp_sdk.API.Interfaces;
-using revit_mcp_commandset.Utils;
 
-namespace revit_mcp_commandset.Commands
+namespace RevitMCPCommandSet.Services
 {
     public class ColorSplashEventHandler : IExternalEventHandler, IWaitableExternalEventHandler
     {
@@ -46,7 +40,7 @@ namespace revit_mcp_commandset.Commands
 
         public void Execute(UIApplication uiapp)
         {
-            this.uiApp = uiapp;
+            uiApp = uiapp;
 
             try
             {
@@ -285,14 +279,14 @@ namespace revit_mcp_commandset.Commands
                 case StorageType.Integer:
 #if REVIT2022_OR_GREATER
                     // For Revit 2022+ we should use ForgeTypeId approach
-                    if (parameter.Definition is Autodesk.Revit.DB.InternalDefinition internalDef)
+                    if (parameter.Definition is InternalDefinition internalDef)
                     {
                         try
                         {
                             // Try to get data type and check if it's a boolean
                             var paramTypeId = internalDef.GetDataType();
                             bool isBoolean = paramTypeId != null &&
-                                           paramTypeId.Equals(Autodesk.Revit.DB.SpecTypeId.Boolean.YesNo);
+                                           paramTypeId.Equals(SpecTypeId.Boolean.YesNo);
 
                             if (isBoolean)
                             {
