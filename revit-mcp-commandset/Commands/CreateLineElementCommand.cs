@@ -1,16 +1,10 @@
 ﻿using Autodesk.Revit.UI;
-using revit_mcp_commandset.Models;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using revit_mcp_sdk.API.Base;
+using RevitMCPCommandSet.Models.Common;
+using RevitMCPCommandSet.Services;
+using RevitMCPSDK.API.Base;
 
-namespace revit_mcp_commandset.Commands
+namespace RevitMCPCommandSet.Commands
 {
     public class CreateLineElementCommand : ExternalEventCommandBase
     {

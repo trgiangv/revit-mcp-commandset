@@ -1,17 +1,12 @@
 ﻿using Autodesk.Revit.UI;
-using revit_mcp_commandset.Models;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using revit_mcp_sdk.API.Base;
+using RevitMCPSDK.API.Base;
+using RevitMCPCommandSet.Models.Common;
+using RevitMCPCommandSet.Services;
 
-namespace revit_mcp_commandset.Commands
+namespace RevitMCPCommandSet.Commands
 {
-    public class CreatePointElementCommand : ExternalEventCommandBase
+    public class CreatePointElementCommand :    ExternalEventCommandBase
     {
         private CreatePointElementEventHandler _handler => (CreatePointElementEventHandler)Handler;
 
