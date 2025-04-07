@@ -21,7 +21,7 @@ Welcome to contribute! Please read this guide before participating.
 1. Create a new branch from the latest `main` branch
 2. Develop your feature or fix
 3. Ensure the code compiles successfully and passes all tests
-4. Commit with clear messages
+4. Commit with clear messages: [Consider following Conventional Commit Guidlines](https://www.conventionalcommits.org/en/v1.0.0/#summary)
 5. Push the branch and create a Pull Request
 
 ## Branch Naming Conventions
