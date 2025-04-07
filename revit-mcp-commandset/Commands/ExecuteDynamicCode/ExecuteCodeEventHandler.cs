@@ -2,7 +2,7 @@
 using Autodesk.Revit.UI;
 using Microsoft.CSharp;
 using Newtonsoft.Json;
-using RevitMCPSDK.API.Interfaces;
+using revit_mcp_sdk.API.Interfaces;
 
 namespace RevitMCPCommandSet.Commands.ExecuteDynamicCode
 {

@@ -1,7 +1,7 @@
 ﻿using Autodesk.Revit.UI;
 using RevitMCPCommandSet.Models.Common;
 using RevitMCPCommandSet.Utils;
-using RevitMCPSDK.API.Interfaces;
+using revit_mcp_sdk.API.Interfaces;
 
 namespace RevitMCPCommandSet.Services
 {

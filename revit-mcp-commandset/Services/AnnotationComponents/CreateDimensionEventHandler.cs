@@ -24,7 +24,7 @@
 using Autodesk.Revit.UI;
 using RevitMCPCommandSet.Models.Annotation;
 using RevitMCPCommandSet.Models.Common;
-using RevitMCPSDK.API.Interfaces;
+using revit_mcp_sdk.API.Interfaces;
 
 namespace RevitMCPCommandSet.Services.AnnotationComponents;
 
