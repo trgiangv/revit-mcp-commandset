@@ -3,7 +3,7 @@
 namespace RevitMCPCommandSet.Models.Common;
 
 /// <summary>
-///     线状构件
+/// 线状构件
 /// </summary>
 public class LineElement
 {
