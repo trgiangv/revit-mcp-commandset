@@ -3,24 +3,29 @@ using Newtonsoft.Json.Linq;
 using RevitMCPSDK.API.Base;
 using RevitMCPCommandSet.Models.Common;
 using RevitMCPCommandSet.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace RevitMCPCommandSet.Commands
 {
-    public class CreatePointElementCommand :    ExternalEventCommandBase
+    public class OperateElementCommand : ExternalEventCommandBase
     {
-        private CreatePointElementEventHandler _handler => (CreatePointElementEventHandler)Handler;
+        private OperateElementEventHandler _handler => (OperateElementEventHandler)Handler;
 
         /// <summary>
         /// 命令名称
         /// </summary>
-        public override string CommandName => "create_point_based_element";
+        public override string CommandName => "operate_element";
 
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="uiApp">Revit UIApplication</param>
-        public CreatePointElementCommand(UIApplication uiApp)
-            : base(new CreatePointElementEventHandler(), uiApp)
+        public OperateElementCommand(UIApplication uiApp)
+            : base(new OperateElementEventHandler(), uiApp)
         {
         }
 
@@ -28,9 +33,9 @@ namespace RevitMCPCommandSet.Commands
         {
             try
             {
-                List<PointElement> data = new List<PointElement>();
+                OperationSetting data = new OperationSetting();
                 // 解析参数
-                data = parameters["data"].ToObject<List<PointElement>>();
+                data = parameters["data"].ToObject<OperationSetting>();
                 if (data == null)
                     throw new ArgumentNullException(nameof(data), "AI传入数据为空");
 
@@ -44,14 +49,13 @@ namespace RevitMCPCommandSet.Commands
                 }
                 else
                 {
-                    throw new TimeoutException("创建点状构件操作超时");
+                    throw new TimeoutException("操作元素超时");
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception($"创建点状构件失败: {ex.Message}");
+                throw new Exception($"操作元素失败: {ex.Message}");
             }
         }
     }
-
 }

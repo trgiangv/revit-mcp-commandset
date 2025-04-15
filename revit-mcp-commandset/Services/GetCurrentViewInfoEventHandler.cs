@@ -1,6 +1,6 @@
 ﻿using Autodesk.Revit.UI;
 using RevitMCPCommandSet.Models.Common;
-using revit_mcp_sdk.API.Interfaces;
+using RevitMCPSDK.API.Interfaces;
 
 namespace RevitMCPCommandSet.Services
 {
@@ -30,7 +30,7 @@ namespace RevitMCPCommandSet.Services
                 ResultInfo = new ViewInfo
                 {
 #if REVIT2024_OR_GREATER
-                    Id = activeView.Id.Value,
+                    Id = (int)activeView.Id.Value,
 #else
                     Id = activeView.Id.IntegerValue,
 #endif

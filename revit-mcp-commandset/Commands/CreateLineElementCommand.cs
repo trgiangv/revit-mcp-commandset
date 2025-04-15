@@ -2,7 +2,7 @@
 using Newtonsoft.Json.Linq;
 using RevitMCPCommandSet.Models.Common;
 using RevitMCPCommandSet.Services;
-using revit_mcp_sdk.API.Base;
+using RevitMCPSDK.API.Base;
 
 namespace RevitMCPCommandSet.Commands
 {

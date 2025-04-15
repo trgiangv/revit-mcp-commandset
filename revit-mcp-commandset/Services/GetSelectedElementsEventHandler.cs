@@ -1,6 +1,6 @@
 ﻿using Autodesk.Revit.UI;
 using RevitMCPCommandSet.Models.Common;
-using revit_mcp_sdk.API.Interfaces;
+using RevitMCPSDK.API.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ namespace RevitMCPCommandSet.Services
     public class GetSelectedElementsEventHandler : IExternalEventHandler, IWaitableExternalEventHandler
     {
         // 执行结果
-        public List<ElementInfo> ResultElements { get; private set; }
+        public List<Models.Common.ElementInfo> ResultElements { get; private set; }
 
         // 状态同步对象
         public bool TaskCompleted { get; private set; }
@@ -60,7 +60,7 @@ namespace RevitMCPCommandSet.Services
             catch (Exception ex)
             {
                 TaskDialog.Show("Error", "获取选中元素失败: " + ex.Message);
-                ResultElements = new List<ElementInfo>();
+                ResultElements = new List<Models.Common.ElementInfo>();
             }
             finally
             {

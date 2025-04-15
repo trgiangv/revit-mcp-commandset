@@ -1,7 +1,8 @@
-﻿using Autodesk.Revit.UI;
+﻿using Autodesk.Revit.DB.Mechanical;
+using Autodesk.Revit.UI;
 using RevitMCPCommandSet.Models.Common;
 using RevitMCPCommandSet.Utils;
-using revit_mcp_sdk.API.Interfaces;
+using RevitMCPSDK.API.Interfaces;
 
 namespace RevitMCPCommandSet.Services
 {
@@ -25,6 +26,7 @@ namespace RevitMCPCommandSet.Services
         public AIResult<List<int>> Result { get; private set; }
 
         public string _wallName = "常规 - ";
+        public string _ductName = "矩形风管 - ";
 
         /// <summary>
         /// 设置创建的参数
@@ -62,6 +64,8 @@ namespace RevitMCPCommandSet.Services
                     // Step2 获取族类型
                     FamilySymbol symbol = null;
                     WallType wallType = null;
+                    DuctType ductType = null;
+
                     if (data.TypeId != -1 && data.TypeId != 0)
                     {
                         ElementId typeELeId = new ElementId(data.TypeId);
@@ -79,6 +83,11 @@ namespace RevitMCPCommandSet.Services
                                 wallType = typeEle as WallType;
                                 builtInCategory = (BuiltInCategory)wallType.Category.Id.IntegerValue;
                             }
+                            else if (typeEle != null && typeEle is DuctType)
+                            {
+                                ductType = typeEle as DuctType;
+                                builtInCategory = (BuiltInCategory)ductType.Category.Id.IntegerValue;
+                            }
                         }
                     }
                     if (builtInCategory == BuiltInCategory.INVALID)
@@ -95,6 +104,19 @@ namespace RevitMCPCommandSet.Services
                                     transaction.Commit();
                                 }
                                 if (wallType == null)
+                                    continue;
+                            }
+                            break;
+                        case BuiltInCategory.OST_DuctCurves:
+                            if (ductType == null)
+                            {
+                                using (Transaction transaction = new Transaction(doc, "创建风管类型"))
+                                {
+                                    transaction.Start();
+                                    ductType = CreateOrGetDuctType(doc, data.Thickness / 304.8, data.Height / 304.8);
+                                    transaction.Commit();
+                                }
+                                if (ductType == null)
                                     continue;
                             }
                             break;
@@ -142,6 +164,35 @@ namespace RevitMCPCommandSet.Services
                                 if (wall != null)
                                 {
                                     elementIds.Add(wall.Id.IntegerValue);
+                                }
+                                break;
+                            case BuiltInCategory.OST_DuctCurves:
+                                Duct duct = null;
+                                // 获取MEP系统类型（必需）
+                                MEPSystemType mepSystemType = new FilteredElementCollector(doc)
+                                    .OfClass(typeof(MEPSystemType))
+                                    .Cast<MEPSystemType>()
+                                    .FirstOrDefault(m => m.SystemClassification == MEPSystemClassification.SupplyAir);
+
+                                if (mepSystemType != null)
+                                {
+                                    duct = Duct.Create(
+                                        doc,
+                                        mepSystemType.Id,
+                                        ductType.Id,
+                                        baseLevel.Id,
+                                        JZLine.ToLine(data.LocationLine).GetEndPoint(0),
+                                        JZLine.ToLine(data.LocationLine).GetEndPoint(1)
+                                    );
+
+                                    if (duct != null)
+                                    {
+                                        // 设置高度偏移
+                                        Parameter offsetParam = duct.get_Parameter(BuiltInParameter.RBS_OFFSET_PARAM);
+                                        if (offsetParam != null)
+                                            offsetParam.Set(baseOffset);
+                                        elementIds.Add(duct.Id.IntegerValue);
+                                    }
                                 }
                                 break;
                             default:
@@ -199,7 +250,6 @@ namespace RevitMCPCommandSet.Services
         {
             return "创建线状构件";
         }
-
 
         /// <summary>
         /// 创建或获取指定厚度的墙体类型
@@ -262,5 +312,51 @@ namespace RevitMCPCommandSet.Services
             }
             return newWallType;
         }
+
+        /// <summary>
+        /// 创建或获取指定尺寸的风管类型
+        /// </summary>
+        /// <param name="doc">Revit文档</param>
+        /// <param name="width">宽度（ft）</param>
+        /// <param name="height">高度（ft）</param>
+        /// <returns>风管类型</returns>
+        private DuctType CreateOrGetDuctType(Document doc, double width, double height)
+        {
+            string typeName = $"{_ductName}{width * 304.8}x{height * 304.8}mm";
+
+            // 先查找是否存在指定尺寸的风管类型
+            DuctType existingType = new FilteredElementCollector(doc)
+                                    .OfClass(typeof(DuctType))
+                                    .Cast<DuctType>()
+                                    .FirstOrDefault(d => d.Name == typeName && d.Shape == ConnectorProfileType.Rectangular);
+
+            if (existingType != null)
+                return existingType;
+
+            // 不存在则创建新的风管类型，基于已有的矩形风管类型
+            DuctType baseDuctType = new FilteredElementCollector(doc)
+                                    .OfClass(typeof(DuctType))
+                                    .Cast<DuctType>()
+                                    .FirstOrDefault(d => d.Shape == ConnectorProfileType.Rectangular);
+
+            if (baseDuctType == null)
+                throw new InvalidOperationException("未找到可用的基础矩形风管类型");
+
+            // 复制风管类型
+            DuctType newDuctType = baseDuctType.Duplicate(typeName) as DuctType;
+
+            // 设置风管尺寸参数
+            Parameter widthParam = newDuctType.get_Parameter(BuiltInParameter.RBS_CURVE_WIDTH_PARAM);
+            Parameter heightParam = newDuctType.get_Parameter(BuiltInParameter.RBS_CURVE_HEIGHT_PARAM);
+
+            if (widthParam != null && heightParam != null)
+            {
+                widthParam.Set(width);
+                heightParam.Set(height);
+            }
+
+            return newDuctType;
+        }
+
     }
 }
