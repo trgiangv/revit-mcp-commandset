@@ -307,7 +307,7 @@ public class CreateDimensionEventHandler : IExternalEventHandler, IWaitableExter
             // Try to get a reference from the family instance
             try
             {
-                Reference centerRef = familyInstance.GetReferenceByName("Center");
+                var centerRef = familyInstance.GetReferenceByName("Center");
                 if (centerRef != null)
                 {
                     references.Add(centerRef);
@@ -348,7 +348,7 @@ public class CreateDimensionEventHandler : IExternalEventHandler, IWaitableExter
         {
             // For simplicity in this example, just pick elements near the point
             // This is a less precise method but works for all view types
-            FilteredElementCollector collector = new FilteredElementCollector(Doc, view.Id);
+            var collector = new FilteredElementCollector(Doc, view.Id);
 
             // Get all elements in the view
             var elements = collector
@@ -357,7 +357,7 @@ public class CreateDimensionEventHandler : IExternalEventHandler, IWaitableExter
 
             // Try to find the closest element to the specified point
             Element closestElement = null;
-            double minDistance = double.MaxValue;
+            var minDistance = double.MaxValue;
 
             foreach (var element in elements)
             {
@@ -382,7 +382,7 @@ public class CreateDimensionEventHandler : IExternalEventHandler, IWaitableExter
                 }
 
                 // Calculate distance to this element
-                double distance = point.DistanceTo(elementPoint);
+                var distance = point.DistanceTo(elementPoint);
 
                 // Update closest element if this one is closer
                 if (distance < minDistance)
